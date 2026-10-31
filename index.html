@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>تحدي قوة المطاط</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#3fb6ff;--card:#fffdf4;--ink:#24406e;--pur:#1976d2;--pink:#ff7a1a;--soft:#e6f5ff;--ok:#2bb35a;--bad:#ef476f;--gold:#ffc41f;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:linear-gradient(180deg,#8fd9ff 0%,#d9f3ff 55%,#fff4c4 100%) fixed;color:var(--ink);font-family:"Baloo Bhaijaan 2",Tajawal,"Segoe UI",Tahoma,Arial,sans-serif;min-height:100vh;padding:14px;font-size:18px}
+.wrap{max-width:760px;margin:0 auto}
+.card{background:var(--card);border-radius:30px;padding:22px;border:5px solid #fff;box-shadow:0 8px 0 rgba(25,118,210,.25)}
+h1{color:var(--pur);margin:.2em 0;font-size:2em;text-align:center}
+h2{color:var(--pur);margin:.2em 0}
+.sub{text-align:center;color:var(--pink);font-weight:bold}
+input{width:100%;padding:12px;border-radius:14px;border:3px solid var(--bg);font:inherit;background:var(--soft);color:var(--ink)}
+textarea{width:100%;min-height:90px;padding:12px;border-radius:14px;border:3px solid var(--bg);font:inherit;background:var(--soft);color:var(--ink)}
+.btn{background:var(--pink);color:#fff;border:0;border-radius:16px;padding:12px 22px;font:inherit;font-weight:bold;cursor:pointer;box-shadow:0 5px 0 #d4560a;margin:6px 0;font-size:1em}
+.btn:active{transform:translateY(3px);box-shadow:none}
+.btn.alt{background:var(--ok);box-shadow:0 5px 0 #1c8a42}
+.opt:hover{border-color:var(--pink)}
+.groups{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:12px 0}
+.g{border:3px solid var(--bg);border-radius:16px;padding:10px;text-align:center;cursor:pointer;background:var(--soft)}
+.g.on{background:var(--pur);color:#fff;border-color:var(--pink)}
+.top{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;font-weight:bold}
+.pill{background:var(--soft);border-radius:30px;padding:6px 14px}
+.bar{height:14px;background:var(--soft);border-radius:10px;overflow:hidden;margin:8px 0 16px}
+.bar i{display:block;height:100%;background:var(--pink);transition:width .4s}
+.q{font-size:1.15em;line-height:1.8;margin:10px 0}
+.opt{display:block;width:100%;text-align:right;margin:8px 0;padding:12px 14px;border-radius:16px;border:3px solid var(--bg);background:var(--soft);color:var(--ink);font:inherit;cursor:pointer}
+.opt.ok{background:var(--ok);color:#fff;border-color:var(--ok)}
+.opt.bad{background:var(--bad);color:#fff;border-color:var(--bad)}
+.fb{padding:12px;border-radius:14px;margin:10px 0;line-height:1.8}
+.fb.ok{background:#d9f5e5;color:#0d5b30}.fb.bad{background:#fde0e0;color:#7d1f1f}
+.badge{font-size:84px;text-align:center;animation:pop .6s}
+@keyframes pop{0%{transform:scale(.2) rotate(-20deg)}70%{transform:scale(1.2)}100%{transform:scale(1)}}
+.lv{display:flex;gap:8px;margin:12px 0}
+.lv div{flex:1;text-align:center;padding:8px 4px;border-radius:14px;background:var(--soft);font-size:.8em;opacity:.55}
+.lv .cur{opacity:1;outline:3px solid var(--pink)}.lv .done{opacity:1;background:#d9f5e5;color:#0d5b30}
+table{width:100%;border-collapse:collapse}td{padding:8px;border-bottom:2px solid var(--soft)}
+.cert{border:8px double var(--gold);padding:20px;text-align:center;border-radius:12px;margin:14px 0;background:#fff8dc}
+.big{font-size:3em;text-align:center}
+@media print{body{background:#fff}.card>*:not(.cert){display:none}}
+.opt.sel{background:var(--pur);color:#fff;border-color:var(--gold)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:12px 0}
+.stat{background:var(--soft);border-radius:16px;padding:12px;text-align:center}.stat b{display:block;font-size:1.6em;color:var(--pink)}
+.sc{overflow-x:auto}.sc table{min-width:520px;font-size:.85em}th{text-align:right;color:var(--pur);padding:8px;border-bottom:3px solid var(--bg)}
+.rv{border-radius:14px;padding:12px;margin:8px 0;line-height:1.8;font-size:.9em}.rv.ok{background:#d9f5e5;color:#0d5b30}.rv.bad{background:#fde0e0;color:#7d1f1f}
+.small{font-size:.8em;opacity:.75}
+input.inv{border-color:var(--bad);background:#fde0e0;color:#7d1f1f;animation:shk .4s}@keyframes shk{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+</style>
+</head>
+<body>
+<div class="wrap"><div class="card" id="app"></div></div>
+<script>
+var LV=[
+{n:"المستوى الأول",t:"صح أم خطأ",badge:"🥉",bn:"الشارة البرونزية",type:"tf",
+q:[
+{t:"عند شد الشريط المطاطي فإنه يخزن طاقة.",a:true,w:"عندما نشد الشريط يخزن طاقة، وعند تركه تتحول إلى قوة تدفع الجسم."},
+{t:"يمكن لقوة الشريط المطاطي أن تجعل السيارة الصغيرة تتحرك.",a:true,w:"قوة الشريط تدفع السيارة فتبدأ في الحركة."},
+{t:"كلما قل شد الشريط المطاطي زادت المسافة التي تقطعها السيارة.",a:false,w:"العكس صحيح: كلما زاد الشد زادت المسافة."},
+{t:"زيادة مقدار شد الشريط المطاطي يمكن أن تزيد سرعة حركة السيارة.",a:true,w:"زيادة الشد تزيد القوة فتزيد السرعة."},
+{t:"عند استخدام شريطين مطاطيين مشدودين بالمقدار نفسه تقل قوة الدفع.",a:false,w:"قوة الدفع تزداد عند استخدام شريطين بدلًا من شريط واحد."}
+]},
+{n:"المستوى الثاني",t:"اختيار من متعدد",badge:"🥈",bn:"الشارة الفضية",type:"mc",
+q:[
+{t:"ماذا يحدث عند شد الشريط المطاطي ثم تركه؟",o:["يتوقف عن التأثير","يؤثر بقوة يمكنها تحريك الجسم","يتحول إلى مادة صلبة","يختفي"],a:1,w:"الشريط المشدود يخزن طاقة تتحول إلى قوة تحرك الجسم."},
+{t:"إذا زاد مقدار شد الشريط المطاطي، فماذا يحدث غالبًا لمسافة حركة السيارة؟",o:["تقل","تزداد","لا تتغير","تتوقف السيارة"],a:1,w:"كلما زاد الشد زادت القوة فزادت المسافة."},
+{t:"سيارة أُطلقت بشريط مشدود بدرجة كبيرة، وأخرى بشد قليل. أيهما يُتوقع أن تبدأ حركتها بسرعة أكبر؟",o:["السيارة الأولى (الشد الكبير)","السيارة الثانية (الشد القليل)","كلاهما بنفس السرعة دائمًا","لا تتحرك أي منهما"],a:0,w:"الشد الأكبر يعطي قوة أكبر وسرعة أكبر."},
+{t:"أيهما يمكن أن يعطي السيارة قوة دفع أكبر، مع تساوي باقي الظروف؟",o:["شريط مطاطي واحد","شريطان مطاطيان","لا يوجد شريط","لا فرق بينهما"],a:1,w:"زيادة عدد الأشرطة تزيد قوة الدفع."},
+{t:"عند استخدام شريطين مطاطيين بدلًا من شريط واحد، ماذا يمكن أن يحدث؟",o:["تقل قوة الدفع","تزداد قوة الدفع","لا تتحرك السيارة","يتوقف الشريط عن العمل"],a:1,w:"قوة الدفع تزداد فتتحرك السيارة لمسافة أكبر أو بسرعة أعلى."}
+]},
+{n:"المستوى الثالث",t:"تحديات تفاعلية",badge:"🥇",bn:"الشارة الذهبية",type:"inter",
+q:[
+{t:"رتّب خطوات حركة السيارة بالشريط المطاطي.",k:"order",items:["نشد الشريط المطاطي","يخزن الشريط طاقة","نترك الشريط","تتحول الطاقة إلى قوة دفع","تتحرك السيارة"],w:"عند شد الشريط يخزن طاقة، وعند تركه تتحول الطاقة إلى قوة تدفع السيارة فتتحرك."},
+{t:"🧪 تجربة: معك شريط مطاطي واحد. حرّك المنزلق لتجعل السيارة تقطع 40 سم على الأقل، ثم اضغط «أطلق».",k:"sim",bands:1,target:40,w:"كلما زاد شد الشريط زادت القوة فزادت المسافة. المسافة هنا = الشد × 5 سم، فتحتاج شدًا 8 أو أكثر."},
+{t:"طابق كل حالة بنتيجتها من القائمة.",k:"match",pairs:[["شد قليل","مسافة قصيرة"],["شد كبير","مسافة أكبر"],["شريط واحد","قوة دفع أقل"],["شريطان","قوة دفع أكبر"]],w:"الشد القليل يعطي مسافة قصيرة والشد الكبير مسافة أكبر، وزيادة عدد الأشرطة تزيد قوة الدفع."},
+{t:"🧪 تجربة: الشد ثابت (5). اختر عدد الأشرطة لتقطع السيارة 60 سم على الأقل، ثم اضغط «أطلق».",k:"sim",bands:"choose",stretch:5,target:60,w:"شريطان يعطيان 50 سم فقط، أما ثلاثة أشرطة فتعطي 75 سم، لأن زيادة عدد الأشرطة تزيد قوة الدفع."},
+{t:"جرّبت سارة السيارة بشريط واحد ثم بشريطين. اضغط على الجملة الخاطئة في تجربتها.",k:"find",items:["استخدمت السيارة نفسها في التجربتين.","شدّت الشريط بمقدار مختلف في كل تجربة.","قاست المسافة بالمسطرة.","لاحظت أن قوة الدفع تزداد بزيادة عدد الأشرطة."],bad:1,w:"لإجراء مقارنة صحيحة نثبّت العوامل الأخرى مثل مقدار الشد ووزن السيارة، ونغيّر عاملًا واحدًا فقط وهو عدد الأشرطة."},
+{t:"🧪 تجربة: معك شريطان مطاطيان. حرّك المنزلق لتجعل السيارة تقطع 90 سم على الأقل، ثم اضغط «أطلق».",k:"sim",bands:2,target:90,w:"مع شريطين تكون المسافة = الشد × 10 سم، فتحتاج شدًا 9 أو أكثر. زيادة الشد وزيادة عدد الأشرطة تزيدان المسافة."},
+{t:"رتّب الحالات التالية من الأقل إلى الأكثر في المسافة التي تقطعها السيارة (اضغط بالترتيب).",k:"order",items:["شريط واحد وشد قليل","شريط واحد وشد كبير","شريطان وشد كبير","ثلاثة أشرطة وشد كبير"],w:"المسافة تزداد بزيادة الشد وبزيادة عدد الأشرطة معًا، فأقلها شريط واحد بشد قليل وأكثرها ثلاثة أشرطة بشد كبير."},
+{t:"اضغط على الجملة الخاطئة.",k:"find",items:["الشريط المطاطي المشدود يخزن طاقة.","كلما زاد شد الشريط زادت قوة الدفع.","كلما زاد شد الشريط قلّت سرعة السيارة.","زيادة عدد الأشرطة تزيد قوة الدفع."],bad:2,w:"العبارة الخاطئة: زيادة الشد تزيد قوة الدفع فتزيد سرعة السيارة، ولا تقلّلها."}
+]}];
+
+var $=document.getElementById("app"),DB=null,ME=null,OWNER=false,S={screen:"start"},DR=[];
+function ls(k,v){try{if(v===undefined)return JSON.parse(localStorage.getItem(k)||"null");localStorage.setItem(k,JSON.stringify(v))}catch(e){return null}}
+function esc(t){return String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
+var BG=["","🥉","🥈","🥇"],BNM=["","الشارة البرونزية","الشارة الفضية","الشارة الذهبية"];
+function need(i){return Math.ceil(LV[i].q.length*0.8)}
+function pas(sc,i){return sc[i]>=need(i)}
+function np(sc){return sc.filter(function(x,i){return x>=need(i)}).length}
+var API="https://script.google.com/macros/s/AKfycbyZ8pLLCx0oMQg70sPPeg3KJ6PznliEfC5hxYHCGs2Eqrq6Bp1YQSeu_ov7Swify_jD/exec";
+function pa(t){var A=safeJ(t);return Array.isArray(A)?[A,0]:[(A&&A.a)||[],(A&&A.t)||0]}
+function fmt(s){s=+s||0;if(!s)return"—";var m=Math.floor(s/60);return(m?m+" د ":"")+(s%60)+" ث"}
+function safeJ(t){try{return JSON.parse(t)}catch(e){return[]}}
+function lvBar(){return"<div class='lv'>"+LV.map(function(l){return"<div>🎯<br>"+l.n+"</div>"}).join("")+"</div>"}
+function start(){S={screen:"start"};var nm=(document.getElementById("nm")||{}).value||"";
+$.innerHTML="<div class='big'>🚗💨</div><h1>تحدي قوة المطاط</h1><p class='sub'>علوم - الصف الرابع الابتدائي - الفصل السابع</p>"+
+"<p>3 مستويات، وكل مستوى 5 أسئلة. اجتز مستوى واحدًا لتكسب 🥉 برونزية، ومستويين 🥈 فضية، والمستويات الثلاثة لتكسب 🥇 ذهبية مع شهادة تقدير وهدية خاصة! ✨</p>"+
+"<p>نتيجتك وملاحظاتك على كل سؤال تظهر لك في النهاية بعد إنهاء الاختبار كاملًا، فركّز وأجب بهدوء 😊</p>"+
+"<p><b>اسمك:</b></p><input id='nm' placeholder='اكتب اسمك الثلاثي هنا' maxlength='40' value='"+esc(nm)+"' oninput='nerr(false)'><div id='ne' style='color:var(--bad);font-weight:bold;margin-top:6px;display:none'>⚠️ ادخل الاسم أولًا لبدء التحدي</div>"+lvBar()+
+"<div style='text-align:center'><button class='btn' onclick='go()'>ابدأ التحدي 🚀</button>"+"<br><button class='btn alt' onclick='dash()'>🔒 لوحة المعلم</button>"+"</div>"+
+""}
+function nerr(on){var i=document.getElementById("nm"),e=document.getElementById("ne");if(!i||!e)return;e.style.display=on?"block":"none";i.classList.remove("inv");if(on){void i.offsetWidth;i.classList.add("inv");i.focus()}}
+function go(){var n=document.getElementById("nm").value.trim();if(n.length<2){nerr(true);return}
+S={screen:"quiz",name:n,lv:0,i:0,res:[[],[],[]],cur:null,sel:[],t0:Date.now()};show()}
+function head(){var L=LV[S.lv];return"<div class='top'><span class='pill'>👤 "+esc(S.name)+"</span><span class='pill'>"+L.n+"</span></div><h2>"+L.t+"</h2><div class='bar'><i style='width:"+(S.i/L.q.length*100)+"%'></i></div>"}
+function Q(){return LV[S.lv].q[S.i]}
+function show(){var L=LV[S.lv],q=Q();S.cur=null;S.sel=[];S.busy=false;
+$.innerHTML=head()+"<div class='q'>"+(S.i+1)+") "+q.t+"</div><div id='w'></div><div id='nx' style='text-align:center;margin-top:10px'></div>";
+if(q.k=="order")S.sh=q.items.map(function(_,i){return i}).sort(function(){return Math.random()-.5});
+if(q.k=="match")S.mo=q.pairs.map(function(p){return p[1]}).sort(function(){return Math.random()-.5});
+if(q.k=="sim"){S.sv=q.stretch||1;S.bn=q.bands=="choose"?1:q.bands;sim(q)}else if(q.k=="match")mt(q);else draw();nxu()}
+function ob(label,fn,on){return"<button class='opt"+(on?" sel":"")+"' onclick='"+fn+"'>"+label+"</button>"}
+function draw(){var L=LV[S.lv],q=Q(),h="",c=S.cur;
+if(L.type=="tf")h=ob("✅ صح","pk(true)",c&&c.v===true)+ob("❌ خطأ","pk(false)",c&&c.v===false);
+else if(L.type=="mc")h=q.o.map(function(o,i){return ob(["أ","ب","ج","د"][i]+". "+o,"pk("+i+")",c&&c.v===i)}).join("");
+else if(q.k=="find")h=q.items.map(function(t,i){return ob(t,"pk("+i+")",c&&c.v===i)}).join("");
+else if(q.k=="order"){h="<p>اضغط على الخطوات بالترتيب الصحيح:</p>"+S.sh.map(function(i){var p=S.sel.indexOf(i);return ob((p>-1?(p+1)+". ":"")+q.items[i],"od("+i+")",p>-1)}).join("")+"<button class='btn alt' onclick='rs()'>إعادة الترتيب ↺</button>"}
+document.getElementById("w").innerHTML=h;nxu()}
+function nxu(){var last=S.i==LV[S.lv].q.length-1;document.getElementById("nx").innerHTML=S.cur?"<button class='btn' onclick='nx()'>"+(last?"إنهاء المستوى ✔":"التالي ◀")+"</button>":"<p class='small'>اختر إجابتك أولًا 👆</p>"}
+function pk(v){var L=LV[S.lv],q=Q();if(L.type=="tf")S.cur={v:v,ok:v===q.a,mine:v?"صح":"خطأ"};else if(q.k=="find")S.cur={v:v,ok:v==q.bad,mine:q.items[v]};else S.cur={v:v,ok:v===q.a,mine:q.o[v]};draw()}
+function od(i){if(S.sel.indexOf(i)>-1)return;var q=Q();S.sel.push(i);S.cur=S.sel.length==q.items.length?{ok:S.sel.every(function(v,j){return v==j}),mine:S.sel.map(function(k){return q.items[k]}).join(" ← ")}:null;draw()}
+function rs(){S.sel=[];S.cur=null;draw()}
+function sim(q){var ch=q.bands=="choose";var h="<div style='background:var(--soft);border-radius:16px;padding:12px;position:relative;height:70px;overflow:hidden'><div id='car' style='position:absolute;right:3%;top:12px;font-size:38px;transition:right 1.6s ease-out'>🚗</div><div style='position:absolute;left:0;right:0;bottom:6px;border-top:4px dashed var(--bg)'></div></div>";
+h+=q.stretch?"<p>مقدار الشد: <b>"+S.sv+"</b> 🔒 (ثابت)</p>":"<p>مقدار الشد: <b id='sv'>"+S.sv+"</b></p><input type='range' min='1' max='10' value='"+S.sv+"' oninput='S.sv=+this.value;S.cur=null;document.getElementById(\"sv\").textContent=this.value;nxu()'>";
+if(ch)h+="<p>عدد الأشرطة:</p>"+[1,2,3].map(function(n){return"<button class='btn"+(n==S.bn?"":" alt")+"' onclick='S.bn="+n+";S.cur=null;sim(Q());nxu()'>"+n+"</button> "}).join("");else h+="<p>عدد الأشرطة: "+S.bn+"</p>";
+h+="<div><button class='btn' onclick='fire()'>أطلق 🚀</button></div><p id='ds'></p><p class='small'>جرّب كما تشاء، وآخر تجربة تطلقها هي إجابتك.</p>";document.getElementById("w").innerHTML=h}
+function fire(){if(S.busy)return;S.busy=true;var q=Q(),d=S.sv*S.bn*5;document.getElementById("car").style.right=(3+Math.min(d,150)/150*80)+"%";document.getElementById("ds").innerHTML="📏 المسافة: <b>"+d+" سم</b> (المطلوب "+q.target+" سم أو أكثر)";
+S.cur={ok:d>=q.target,mine:"الشد "+S.sv+" × "+S.bn+" شريط = "+d+" سم"};setTimeout(function(){S.busy=false;nxu()},1700)}
+function mt(q){var h="";q.pairs.forEach(function(p,i){h+="<p>"+p[0]+" ⟵ <select id='m"+i+"' onchange='mc()' style='font:inherit;padding:8px;border-radius:10px'><option value=''>اختر...</option>"+S.mo.map(function(o){return"<option>"+o+"</option>"}).join("")+"</select></p>"});document.getElementById("w").innerHTML=h}
+function mc(){var q=Q(),ok=true,all=true,m=[];q.pairs.forEach(function(p,i){var v=document.getElementById("m"+i).value;if(!v)all=false;else{if(v!=p[1])ok=false;m.push(p[0]+": "+v)}});S.cur=all?{ok:ok,mine:m.join(" | ")}:null;nxu()}
+function rt(L,q){if(L.type=="tf")return q.a?"صح":"خطأ";if(L.type=="mc")return q.o[q.a];if(q.k=="order")return q.items.join(" ← ");if(q.k=="sim")return"أن تقطع السيارة "+q.target+" سم أو أكثر";if(q.k=="match")return q.pairs.map(function(p){return p[0]+": "+p[1]}).join(" | ");return q.items[q.bad]}
+function nx(){var L=LV[S.lv],q=Q();S.res[S.lv].push({t:q.t,mine:S.cur.mine,ok:S.cur.ok,right:rt(L,q),w:q.w});S.i++;
+if(S.i<L.q.length)show();else if(S.lv<2)lvDone();else finish()}
+function lvDone(){var L=LV[S.lv];$.innerHTML="<div class='badge'>🎯</div><h1>أنهيت "+L.n+"!</h1><p class='sub'>تم تسجيل إجاباتك ✅</p><p style='text-align:center'>ستظهر نتيجتك وملاحظاتك على كل سؤال بعد إنهاء الاختبار كاملًا.</p><div style='text-align:center'><button class='btn' onclick='up()'>المستوى التالي 🚀</button></div>"}
+function up(){S.lv++;S.i=0;show()}
+var PING_ERR="";
+async function call(p){try{var r=await fetch(API,{method:"POST",redirect:"follow",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(p)});return JSON.parse(await r.text())}catch(e1){}
+var r2=await fetch(API+"?q="+encodeURIComponent(JSON.stringify(p)),{redirect:"follow"});return JSON.parse(await r2.text())}
+async function why(){try{await fetch(API,{mode:"no-cors"});return"الرابط يستجيب لكن المتصفح رفض قراءة الرد: غالبًا Who has access ليس Anyone، أو لم تُنشر نسخة جديدة، أو لم توافق على الصلاحيات."}catch(e){return"المتصفح أو الشبكة تمنع الوصول إلى script.google.com (جرّب شبكة أو متصفحًا آخر، وأوقف إضافات حظر الإعلانات)."}}
+async function save(rec){try{var j=await call({action:"add",rec:rec});if(j.ok)return"cloud"}catch(e){}var a=ls("res")||[];a.push(rec);ls("res",a);return"local"}
+async function finish(){$.innerHTML="<p style='text-align:center'>⏳ جاري حفظ نتيجتك...</p>";
+var sc=S.res.map(function(r){return r.filter(function(x){return x.ok}).length}),pts=sc[0]*10+sc[1]*20+sc[2]*30+np(sc)*50;
+S.secs=Math.max(1,Math.round((Date.now()-S.t0)/1000));var rec={name:S.name,at:new Date().toISOString(),sc:sc,pts:pts,ans:{t:S.secs,a:S.res.map(function(l){return l.map(function(x){return{ok:x.ok,mine:x.mine}})})}};
+var m=await save(rec);final(sc,pts,m)}
+function retry(){var n=S.name;S={screen:"quiz",name:n,lv:0,i:0,res:[[],[],[]],cur:null,sel:[],t0:Date.now()};show()}
+function final(sc,pts,m){var n=np(sc),gold=n==3;
+var h="<div class='badge'>"+(n?BG[n]:"💪")+"</div><h1>انتهى الاختبار يا "+esc(S.name)+"!</h1><p class='sub'>مجموع نقاطك: "+pts+"</p><p style='text-align:center'>⏱️ الزمن: "+fmt(S.secs)+"</p><p style='text-align:center'>اجتزت <b>"+n+"</b> من 3 مستويات</p><div class='lv'>"+
+LV.map(function(l,i){var ok=pas(sc,i);return"<div class='"+(ok?"done":"")+"' style='opacity:1'>"+(ok?"✅":"❌")+"<br>"+l.n+"<br><b>"+sc[i]+" / "+l.q.length+"</b><br>"+(ok?"اجتزته":"لم تجتزه")+"</div>"}).join("")+"</div>"+
+(n?"<p class='sub'>🎉 حصلت على "+BNM[n]+"</p>":"<p style='text-align:center'>لم تجتز أي مستوى هذه المرة، لكن تقدر تحاول من جديد 💪</p>")+
+"<p class='small'>اجتياز المستوى يحتاج 80% على الأقل ("+LV.map(function(l,i){return need(i)+" من "+l.q.length}).join("، ")+" على الترتيب). "+(m=="cloud"?"تم إرسال نتيجتك للمعلم ✅":"حُفظت نتيجتك على هذا الجهاز.")+"</p>";
+if(gold)h+="<div class='cert'><div style='font-size:50px'>🎖️</div><h2>شهادة تقدير ذهبية</h2><p>تُمنح هذه الشهادة للبطل</p><h1>"+esc(S.name)+"</h1><p>لاجتيازه المستويات الثلاثة في تحدي «قوة المطاط» - علوم الصف الرابع الابتدائي<br>مجموع النقاط: <b>"+pts+"</b></p></div><div style='text-align:center'><button class='btn alt' onclick='window.print()'>🖨️ اطبع الشهادة</button></div><div id='gift' style='text-align:center'><p>🎁 هديتك الخاصة في انتظارك! اضغط على الصندوق:</p><div class='big' style='cursor:pointer' onclick='gift()'>🎁</div></div>";
+else h+="<p style='text-align:center'>للحصول على 🥇 الشارة الذهبية وشهادة التقدير والهدية الخاصة لازم تجتاز المستويات الثلاثة.</p><div style='text-align:center'><button class='btn' onclick='retry()'>🔄 إعادة الاختبار</button></div>";
+h+="<h2>📝 التغذية الراجعة الكاملة</h2>";
+S.res.forEach(function(l,i){h+="<h2>"+LV[i].n+" ("+sc[i]+"/"+LV[i].q.length+") "+(pas(sc,i)?"✅ اجتزته":"❌ لم تجتزه")+"</h2>"+l.map(function(x,j){return"<div class='rv "+(x.ok?"ok":"bad")+"'><b>"+(x.ok?"✅":"❌")+" "+(j+1)+") "+x.t+"</b><br>إجابتك: "+esc(x.mine)+(x.ok?"":"<br>الإجابة الصحيحة: "+x.right)+"<br>💡 "+x.w+"</div>"}).join("")});
+h+="<div style='text-align:center'>"+(gold?"":"<button class='btn' onclick='retry()'>🔄 إعادة الاختبار</button> ")+"<button class='btn alt' onclick='start()'>العودة للبداية</button></div>";$.innerHTML=h}
+function gift(){document.getElementById("gift").innerHTML="<div class='badge'>🌟🎉🏅</div><h2>مبروك! هديتك الخاصة: لقب «بطل قوة المطاط» 🏆</h2><p>اطلب من معلمك هديتك الخاصة!</p>"}
+function dash(){S.screen="dash";$.innerHTML="<div class='top'><h2>🔒 لوحة المعلم</h2><button class='btn alt' onclick='start()'>رجوع</button></div><p>اكتب كلمة المرور لفتح لوحة أداء المشاركين:</p><input id='pw' type='password' placeholder='كلمة المرور' autocomplete='new-password' onkeydown='if(event.keyCode==13)login()' oninput='perr(\"\")'><div id='pe' style='color:var(--bad);font-weight:bold;margin-top:6px;display:none'></div><div style='text-align:center;margin-top:10px'><button class='btn' id='lb' onclick='login()'>دخول</button></div>";document.getElementById("pw").focus()}
+function perr(m){var i=document.getElementById("pw"),e=document.getElementById("pe");if(!i||!e)return;e.style.display=m?"block":"none";e.textContent=m?"⚠️ "+m:"";i.classList.remove("inv");if(m){void i.offsetWidth;i.classList.add("inv");i.focus();i.select()}}
+async function login(){var pw=document.getElementById("pw").value,b=document.getElementById("lb");if(!pw){perr("ادخل كلمة المرور");return}
+b.disabled=true;b.textContent="⏳ جاري التحقق...";
+function bk(){b.disabled=false;b.textContent="دخول"}
+try{var j=await call({action:"list",pw:pw});
+if(j.error){bk();perr("خطأ من الجدول: "+j.error);return}
+if(!j.ok){bk();perr("كلمة المرور خاطئة");return}
+DR=j.rows.map(function(x){return{name:x.name,at:String(x.at),sc:[+x.s1,+x.s2,+x.s3],pts:+x.pts,ans:pa(x.ans)[0],time:pa(x.ans)[1]}}).sort(function(a,b){return b.at.localeCompare(a.at)});drender("cloud")}
+catch(e){var w=await why();bk();perr("تعذر الاتصال بالجدول. "+w)}}
+var SORT="top",SRC="cloud",SORTS=[["top","الأعلى نقاطًا ← الأقل"],["low","الأقل نقاطًا ← الأعلى"],["fast","الأسرع زمنًا (خلّص أولًا)"],["slow","الأبطأ زمنًا"],["new","الأحدث"],["old","الأقدم"],["name","الاسم (أبجديًا)"]];
+function tm(r){return r.time>0?r.time:1e9}
+function sortDR(){var f={"top":function(a,b){return b.pts-a.pts||tm(a)-tm(b)},"low":function(a,b){return a.pts-b.pts||tm(a)-tm(b)},"fast":function(a,b){return tm(a)-tm(b)},"slow":function(a,b){return(b.time||0)-(a.time||0)},"new":function(a,b){return b.at.localeCompare(a.at)},"old":function(a,b){return a.at.localeCompare(b.at)},"name":function(a,b){return String(a.name).localeCompare(String(b.name),"ar")}}[SORT];DR.sort(f)}
+function srt(v){SORT=v;drender(SRC)}
+function drender(src){SRC=src;sortDR();var n=DR.length,avg=n?Math.round(DR.reduce(function(a,r){return a+r.pts},0)/n):0,ts=DR.filter(function(r){return r.time>0}),avgT=ts.length?Math.round(ts.reduce(function(a,r){return a+r.time},0)/ts.length):0;
+var h="<div class='top'><h2>📊 لوحة المعلم</h2><button class='btn alt' onclick='start()'>رجوع</button></div>"+
+(src=="cloud"?"":"<p class='small'>⚠️ لا يمكن الوصول لقاعدة البيانات المشتركة الآن، المعروض هو نتائج هذا الجهاز فقط.</p>")+
+"<h2>👥 المشاركون ("+n+")</h2><div class='top'><label>ترتيب حسب: <select id='st' onchange='srt(this.value)' style='font:inherit;padding:8px;border-radius:12px;border:3px solid var(--bg);background:var(--soft);color:var(--ink)'>"+SORTS.map(function(o){return"<option value='"+o[0]+"'"+(o[0]==SORT?" selected":"")+">"+o[1]+"</option>"}).join("")+"</select></label><button class='btn' onclick='csv()'>⬇️ تصدير Excel (CSV)</button></div>"+
+"<div class='sc'><table><tr><th>#</th><th>الاسم</th><th>⏱️ الزمن</th>"+LV.map(function(l,i){return"<th>م"+(i+1)+"</th>"}).join("")+"<th>النقاط</th><th>الشارة</th><th>التاريخ</th></tr>";
+DR.forEach(function(r,i){h+="<tr style='cursor:pointer' onclick='dt("+i+")'><td>"+(i+1)+"</td><td><b>"+esc(r.name)+"</b></td><td>"+fmt(r.time)+"</td>"+LV.map(function(l,k){return"<td>"+r.sc[k]+"/"+l.q.length+(r.sc[k]>=need(k)?" ✅":"")+"</td>"}).join("")+"<td><b>"+r.pts+"</b></td><td>"+(BG[np(r.sc)]||"—")+"</td><td>"+new Date(r.at).toLocaleDateString("ar-EG")+"</td></tr>"});
+h+="</table></div>"+(n?"<p class='small'>اضغط على اسم الطالب لرؤية تفاصيل إجاباته.</p>":"<p style='text-align:center'>لا توجد نتائج بعد.</p>")+"<div id='dt'></div>"+
+"<div class='stats'><div class='stat'><b>"+n+"</b>عدد المشاركين</div><div class='stat'><b>"+avg+"</b>متوسط النقاط</div><div class='stat'><b>"+fmt(avgT)+"</b>متوسط الزمن</div></div>"+
+"<h2>📈 نسبة اجتياز المستويات</h2>"+LV.map(function(l,i){var p=DR.filter(function(r){return r.sc[i]>=need(i)}).length,pc=n?Math.round(p/n*100):0;return"<div style='margin:10px 0'><div class='top' style='margin:0'><span>"+l.n+"</span><span>"+pc+"% ("+p+" من "+n+")</span></div><div class='bar' style='height:22px;margin:4px 0'><i style='width:"+pc+"%;background:var(--ok)'></i></div></div>"}).join("");
+$.innerHTML=h}
+function dt(i){var r=DR[i],h="<div class='card' style='background:var(--soft);box-shadow:none'><h2>"+esc(r.name)+"</h2><p>⏱️ الزمن: "+fmt(r.time)+" | النقاط: "+r.pts+"</p>";
+LV.forEach(function(l,a){h+="<b>"+l.n+" ("+r.sc[a]+"/"+l.q.length+")</b>";(r.ans&&r.ans[a]||[]).forEach(function(x,j){h+="<div class='rv "+(x.ok?"ok":"bad")+"'>"+(x.ok?"✅":"❌")+" "+(j+1)+") "+esc(x.mine)+"</div>"})});
+document.getElementById("dt").innerHTML=h+"</div>";document.getElementById("dt").scrollIntoView({behavior:"smooth"})}
+function csv(){var nl=String.fromCharCode(10),t=String.fromCharCode(65279)+"الاسم,التاريخ,الزمن (ثانية),المستوى 1,المستوى 2,المستوى 3,النقاط"+nl;
+DR.forEach(function(r){t+='"'+String(r.name).replace(/"/g,"'")+'",'+r.at.slice(0,10)+","+(r.time||0)+","+r.sc.join(",")+","+r.pts+nl});
+var b=new Blob([t],{type:"text/csv;charset=utf-8"}),a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="results.csv";document.body.appendChild(a);a.click();a.remove()}
+start();
+</script>
+</body>
+</html>
